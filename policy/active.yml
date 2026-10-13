@@ -1,7 +1,7 @@
 commands_restrictions:
   copy:
     conditions:
-      - sender = onecursor13-vm7-secondary-20261013
+      - sender-permission >= write
 pull_request_rules:
   - name: vm7-root78-required-team-same-pr-gate-261013
     conditions:
