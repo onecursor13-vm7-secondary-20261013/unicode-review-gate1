@@ -1,0 +1,13 @@
+commands_restrictions:
+  copy:
+    conditions:
+      - sender = onecursor13-vm7-secondary-20261013
+pull_request_rules:
+  - name: vm7-root78-required-team-same-pr-gate-261013
+    conditions:
+      - base = gate1-root78-protected
+      - author = onecursor13-vm7-secondary-20261013
+      - title = VM7_ROOT78_FIXED_OWNER_UNICODE_TRIGGER_261013
+    actions:
+      merge:
+        method: merge
