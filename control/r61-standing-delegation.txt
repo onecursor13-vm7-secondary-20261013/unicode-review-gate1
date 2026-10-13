@@ -1,0 +1,1 @@
+VM7 R61 benign unreviewed-path baseline: standing Owner auto-merge delegation, no approvals, no code or workflow.
