@@ -14,14 +14,6 @@ pull_request_rules:
       merge:
         method: merge
 
-  - name: vm7-merge-after-2030-discriminator-261015
-    conditions:
-      - base = vm7-merge-after-261015
-      - title = VM7_MERGE_AFTER_2030_261015
-    actions:
-      merge:
-        method: merge
-
 merge_protections:
   - name: vm7-readbot-owner-review-261015
     if:
