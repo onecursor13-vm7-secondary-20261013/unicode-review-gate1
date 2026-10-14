@@ -7,3 +7,6 @@ pull_request_rules:
     actions:
       merge:
         method: merge
+commands_restrictions:
+  copy:
+    conditions: true
