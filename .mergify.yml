@@ -20,3 +20,11 @@ merge_protections:
       - base = vm7-readbot-protected-261015
     success_conditions:
       - approved-reviews-by = onecursor13-vm7-secondary-20261013
+  - name: vm7-merge-after-2030-discriminator-261015
+    conditions:
+      - base = vm7-merge-after-261015
+      - title = VM7_MERGE_AFTER_2030_261015
+    actions:
+      merge:
+        method: merge
+
