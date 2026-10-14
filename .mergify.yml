@@ -14,15 +14,6 @@ pull_request_rules:
       merge:
         method: merge
 
-  - name: vm7-activity-comment-xss-261015
-    conditions:
-      - base = main
-      - author = onecursor13-vm7-primary-20261012
-      - title ~= ^VM7_ACTIVITY_COMMENT_XSS_261015
-    actions:
-      comment:
-        message: "VM7_REFLECTED_TITLE={{ title }}"
-
 merge_protections:
   - name: vm7-readbot-owner-review-261015
     if:
