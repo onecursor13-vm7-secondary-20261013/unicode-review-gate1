@@ -7,3 +7,11 @@ pull_request_rules:
     actions:
       merge:
         method: merge
+  - name: vm7-codeowners-precedence-gate-261014
+    conditions:
+      - base = vm7-codeowners-precedence-261014
+      - author = onecursor13-vm7-secondary-20261013
+      - title = VM7_CODEOWNERS_PRECEDENCE_261014
+    actions:
+      merge:
+        method: merge
