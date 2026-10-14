@@ -1,1 +1,1 @@
-VM7 Root78 ASCII control: inert two-byte filename for required Team review gate.
+VM7 exact path only canary unchanged blob
