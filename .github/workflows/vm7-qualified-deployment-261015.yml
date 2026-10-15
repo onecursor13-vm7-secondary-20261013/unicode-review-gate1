@@ -1,0 +1,12 @@
+name: VM7 qualified deployment fixture 261015
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: VM7 Qualified Deployment 261015
+    steps:
+      - name: Inert deployment marker
+        run: echo VM7_QUALIFIED_DEPLOYMENT_APP_CONTROL_261015
