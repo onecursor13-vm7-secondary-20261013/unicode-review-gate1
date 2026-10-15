@@ -28,4 +28,4 @@ merge_protections:
     if:
       - base = vm7-qualified-deploy-base-261015
     success_conditions:
-      - deployment-success = @github-actions/VM7 Qualified Deployment 261015
+      - deployment-success = @vm7-mergify-qualified-261015-58142/VM7 Qualified Deployment 261015
