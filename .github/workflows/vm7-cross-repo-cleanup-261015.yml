@@ -1,0 +1,37 @@
+name: VM7 Cross Repo Deployment Cleanup 261015
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deactivate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark the isolated deployment inactive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOYMENT_REF: 411a36f54f9a4ec2a2e07bca87edce871e13aab4
+          DEPLOYMENT_ENVIRONMENT: VM7 Cross Repo Binding 261015
+        run: |
+          deployment_id="$(curl --fail-with-body --silent --show-error \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --get \
+            --data-urlencode "sha=$DEPLOYMENT_REF" \
+            --data-urlencode "environment=$DEPLOYMENT_ENVIRONMENT" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments" | jq -er '.[0].id')"
+          status_payload="$(jq -nc \
+            --arg environment "$DEPLOYMENT_ENVIRONMENT" \
+            '{state:"inactive",environment:$environment,description:"VM7 fixture cleanup"}')"
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments/$deployment_id/statuses" \
+            --data "$status_payload" >/dev/null
