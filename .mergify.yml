@@ -13,13 +13,6 @@ pull_request_rules:
     actions:
       merge:
         method: merge
-  - name: vm7-cross-repo-deployment-binding-261015
-    conditions:
-      - number = 20
-      - deployment-success = VM7 Cross Repo Binding 261015
-    actions:
-      comment:
-        message: VM7_CROSS_REPO_DEPLOYMENT_MATCHED_261015
 
 merge_protections:
   - name: vm7-readbot-owner-review-261015
