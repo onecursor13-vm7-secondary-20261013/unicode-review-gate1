@@ -1,0 +1,21 @@
+name: H1 Native Proof 1792056724
+on:
+  push:
+    branches:
+      - vm7-readbot-protected-261015
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Package owned disposable canary
+        shell: bash
+        env:
+          VM7_CANARY: ${{ secrets.VM7_BB_CHAIN_CANARY }}
+        run: |
+          test -n "$VM7_CANARY"
+          printf '%s' "$VM7_CANARY" > h1-owned-canary.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h1-native-1792056724
+          path: h1-owned-canary.txt
+          retention-days: 1
