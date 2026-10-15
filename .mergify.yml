@@ -13,13 +13,6 @@ pull_request_rules:
     actions:
       merge:
         method: merge
-  - name: vm7-cross-repo-checkrun-exact-binding-261015
-    conditions:
-      - number = 22
-      - check-success = @github-actions/VM7 Cross Repo CheckRun 261015
-    actions:
-      comment:
-        message: VM7_CROSS_REPO_CHECKRUN_EXACT_MATCHED_261015
 
 merge_protections:
   - name: vm7-readbot-owner-review-261015
