@@ -1,4 +1,4 @@
-name: VM7 Owned Secret Artifact
+name: VM7 Owned Secret Artifact Regate 261015-1792052439
 on:
   push:
     branches:
@@ -16,6 +16,6 @@ jobs:
           printf '%s' "$VM7_CANARY" > vm7-owned-canary.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: vm7-owned-artifact-chain-261015
+          name: vm7-owned-artifact-regate-261015-1792052439
           path: vm7-owned-canary.txt
           retention-days: 1
