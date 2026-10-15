@@ -1,0 +1,17 @@
+name: VM7 Cross Repo CheckRun Source 261015
+
+on:
+  push:
+    branches:
+      - vm7-cross-repo-checkrun-source-261015
+
+permissions:
+  contents: read
+
+jobs:
+  source-check:
+    name: VM7 Cross Repo CheckRun 261015
+    runs-on: ubuntu-latest
+    steps:
+      - name: Complete inert source check
+        run: echo "VM7 cross-repository check-run source control"
