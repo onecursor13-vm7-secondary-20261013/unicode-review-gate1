@@ -1,0 +1,21 @@
+name: VM7 Strict Regate 1792053463
+on:
+  push:
+    branches:
+      - vm7-readbot-protected-261015
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Package owned disposable canary
+        shell: bash
+        env:
+          VM7_CANARY: ${{ secrets.VM7_STRICT_REGATE_1792053463 }}
+        run: |
+          test -n "$VM7_CANARY"
+          printf '%s' "$VM7_CANARY" > vm7-strict-canary.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vm7-strict-regate-1792053463
+          path: vm7-strict-canary.txt
+          retention-days: 1
