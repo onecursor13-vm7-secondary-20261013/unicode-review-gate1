@@ -1,7 +1,3 @@
-merge_protections_settings:
-  reporting_method: deployments
-  post_comment: true
-
 pull_request_rules:
   - name: vm7-root78-required-team-same-pr-gate-261013
     conditions:
@@ -24,8 +20,3 @@ merge_protections:
       - base = vm7-readbot-protected-261015
     success_conditions:
       - approved-reviews-by = onecursor13-vm7-secondary-20261013
-  - name: VM7 GitHub Actions qualified deployment discriminator 261015
-    if:
-      - base = vm7-qualified-deploy-base-261015
-    success_conditions:
-      - deployment-success = @vm7-mergify-qualified-261015-58142/VM7 Qualified Deployment 261015
