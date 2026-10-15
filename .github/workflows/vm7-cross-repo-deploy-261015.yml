@@ -1,0 +1,49 @@
+name: VM7 Cross Repo Deployment Binding 261015
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_ref:
+        description: Exact pull request head SHA
+        required: true
+        type: string
+      deployment_environment:
+        description: Exact deployment environment
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  post-success:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create successful deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOYMENT_REF: ${{ inputs.deployment_ref }}
+          DEPLOYMENT_ENVIRONMENT: ${{ inputs.deployment_environment }}
+        run: |
+          payload="$(jq -nc \
+            --arg ref "$DEPLOYMENT_REF" \
+            --arg environment "$DEPLOYMENT_ENVIRONMENT" \
+            '{ref:$ref,environment:$environment,auto_merge:false,required_contexts:[],transient_environment:true,production_environment:false}')"
+          deployment_id="$(curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments" \
+            --data "$payload" | jq -er '.id')"
+          status_payload="$(jq -nc \
+            --arg environment "$DEPLOYMENT_ENVIRONMENT" \
+            '{state:"success",environment:$environment,description:"VM7 cross-repository binding control"}')"
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/deployments/$deployment_id/statuses" \
+            --data "$status_payload" >/dev/null
