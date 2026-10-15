@@ -3,7 +3,7 @@ name: VM7 Cross Repo CheckRun Source 261015
 on:
   push:
     branches:
-      - vm7-cross-repo-checkrun-source-261015
+      - "vm7-cross-repo-checkrun-*"
 
 permissions:
   contents: read
