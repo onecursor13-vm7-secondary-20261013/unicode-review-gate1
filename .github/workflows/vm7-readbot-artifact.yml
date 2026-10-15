@@ -1,4 +1,4 @@
-name: VM7 Owned Secret Artifact
+name: VM7 Owned Secret Artifact Direct Control
 on:
   push:
     branches:
