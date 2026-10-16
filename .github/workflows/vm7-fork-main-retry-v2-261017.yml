@@ -1,0 +1,53 @@
+name: VM7 Fork Main Test Retry V2 261017
+
+on:
+  workflow_dispatch:
+    inputs:
+      outcome:
+        description: Controlled trusted default branch outcome
+        required: true
+        type: choice
+        options:
+          - fail
+          - pass
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  retry-provenance-v2:
+    runs-on: ubuntu-latest
+    env:
+      MERGIFY_TOKEN: ${{ vars.MERGIFY_TOKEN_RETRY_261017 }}
+      MERGIFY_TEST_JOB_NAME: vm7-fork-main-retry-v2-261017
+      VM7_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.outcome || (github.head_ref == 'main' && 'pass' || 'consumer') }}
+    steps:
+      - name: Install exact supported Test Engine client
+        run: python -m pip install --disable-pip-version-check pytest==8.4.2 pytest-mergify==2026.10.5
+      - name: Run fixed target-owned provenance and retry test
+        shell: bash
+        run: |
+          if [[ "$VM7_MODE" == "fail" ]]; then
+            cat > test_vm7_fork_main_retry_v2_261017.py <<'PY'
+          def test_vm7_fork_main_retry_v2_261017():
+              raise AssertionError("VM7_FORK_MAIN_RETRY_V2_TRUSTED_FAILURE_261017")
+          PY
+          elif [[ "$VM7_MODE" == "pass" ]]; then
+            cat > test_vm7_fork_main_retry_v2_261017.py <<'PY'
+          def test_vm7_fork_main_retry_v2_261017():
+              assert True
+          PY
+          else
+            cat > test_vm7_fork_main_retry_v2_261017.py <<'PY'
+          from pathlib import Path
+
+          def test_vm7_fork_main_retry_v2_261017():
+              marker = Path("/tmp/vm7-fork-main-retry-v2-attempt-261017")
+              if not marker.exists():
+                  marker.write_text("first attempt consumed\n")
+                  raise AssertionError("VM7_FORK_MAIN_RETRY_V2_FIRST_ATTEMPT_261017")
+          PY
+          fi
+          pytest -q test_vm7_fork_main_retry_v2_261017.py
