@@ -1,0 +1,33 @@
+name: VM7 Fork Main Test Retry 261017
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  fixed-target-test:
+    name: VM7 Fork Main Retry Consumer 261017
+    runs-on: ubuntu-latest
+    env:
+      MERGIFY_TOKEN: ${{ vars.MERGIFY_TOKEN_RETRY_261017 }}
+      MERGIFY_TEST_JOB_NAME: vm7-fork-main-retry-consumer-261017
+    steps:
+      - name: Install exact supported Test Engine client
+        run: python -m pip install --disable-pip-version-check pytest==8.4.2 pytest-mergify==2026.10.5
+      - name: Run fixed target-owned fail-then-pass test
+        shell: bash
+        run: |
+          cat > test_vm7_fork_main_retry_261017.py <<'PY'
+          from pathlib import Path
+
+          def test_vm7_fork_main_retry_261017():
+              marker = Path("/tmp/vm7-fork-main-retry-attempt-261017")
+              if not marker.exists():
+                  marker.write_text("first attempt consumed\n")
+                  raise AssertionError("VM7_FORK_MAIN_RETRY_FIRST_ATTEMPT_261017")
+              assert marker.read_text() == "first attempt consumed\n"
+          PY
+          pytest -q -s test_vm7_fork_main_retry_261017.py
