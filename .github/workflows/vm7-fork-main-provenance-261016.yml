@@ -1,0 +1,37 @@
+name: VM7 Fork Main Test Engine Provenance 261016
+
+on:
+  workflow_dispatch:
+    inputs:
+      outcome:
+        description: Controlled default-branch test outcome
+        required: true
+        type: choice
+        options:
+          - fail
+          - pass
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  provenance:
+    runs-on: ubuntu-latest
+    env:
+      MERGIFY_TOKEN: ${{ secrets.MERGIFY_TOKEN }}
+      MERGIFY_TEST_JOB_NAME: vm7-fork-main-provenance-261016
+      VM7_OUTCOME: ${{ inputs.outcome || 'pass' }}
+    steps:
+      - name: Install current supported client
+        run: python -m pip install --disable-pip-version-check pytest==8.4.2 pytest-mergify==2026.10.5
+      - name: Run inert provenance test
+        shell: bash
+        run: |
+          if [[ "$VM7_OUTCOME" == "fail" ]]; then
+            printf 'def test_vm7_fork_main_provenance_261016():\n    assert False, "VM7_FORK_MAIN_PROVENANCE_FAIL_261016"\n' > test_vm7_provenance_261016.py
+          else
+            printf 'def test_vm7_fork_main_provenance_261016():\n    assert True\n' > test_vm7_provenance_261016.py
+          fi
+          pytest -q test_vm7_provenance_261016.py
