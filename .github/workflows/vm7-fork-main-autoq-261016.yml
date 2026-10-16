@@ -19,5 +19,5 @@ jobs:
       - name: Run fixed failing PR test
         shell: bash
         run: |
-          printf 'def test_vm7_fork_main_autoq_v2_261016():\n    assert False, "VM7_FORK_MAIN_AUTOQ_V2_FAIL_261016"\n' > test_vm7_fork_main_autoq_v2_261016.py
-          pytest -q test_vm7_fork_main_autoq_v2_261016.py
+          printf 'def test_vm7_fork_main_autoq_v3_261016():\n    assert False, "VM7_FORK_MAIN_AUTOQ_V3_FAIL_261016"\n' > test_vm7_fork_main_autoq_v3_261016.py
+          pytest -q test_vm7_fork_main_autoq_v3_261016.py
