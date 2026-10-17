@@ -1,4 +1,4 @@
-name: VM7 Fork Main Prevention Gate V5 261017
+name: VM7 Fork Main Prevention Gate V5C 261017
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MERGIFY_TOKEN: ${{ vars.MERGIFY_TOKEN_RETRY_261017 }}
-      MERGIFY_TEST_JOB_NAME: vm7-fork-main-prevention-v5-261017
+      MERGIFY_TEST_JOB_NAME: vm7-fork-main-prevention-v5c-261017
     steps:
       - name: Install exact supported Test Engine client
         run: python -m pip install --disable-pip-version-check pytest==8.4.2 pytest-mergify==2026.10.5
@@ -30,21 +30,21 @@ jobs:
           import os
           from pathlib import Path
 
-          def test_vm7_fork_main_prevention_v5_seed_261017():
+          def test_vm7_fork_main_prevention_v5c_seed_261017():
               assert True
 
           if os.environ["VM7_MODE"] != "seed":
-            def test_vm7_fork_main_prevention_v5b_261017():
+            def test_vm7_fork_main_prevention_v5c_261017():
               if os.environ["VM7_MODE"] == "poison":
                   assert True
                   return
 
-              marker = Path("/tmp/vm7-fork-main-prevention-v5b-attempt-261017")
+              marker = Path("/tmp/vm7-fork-main-prevention-v5c-attempt-261017")
               if not marker.exists():
                   marker.write_text("first invocation passed\n")
                   assert True
                   return
 
-              raise AssertionError("VM7_PREVENTION_V5B_RERUN_FAILURE_261017")
+              raise AssertionError("VM7_PREVENTION_V5C_RERUN_FAILURE_261017")
           PY
           pytest -q -s test_vm7_fork_main_prevention_v5_261017.py
