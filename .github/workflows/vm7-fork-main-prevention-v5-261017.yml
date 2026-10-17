@@ -2,8 +2,6 @@ name: VM7 Fork Main Prevention Gate V5 261017
 
 on:
   workflow_dispatch:
-  pull_request:
-    types: [opened, synchronize, reopened]
   pull_request_target:
     types: [opened, synchronize, reopened]
 
@@ -15,8 +13,7 @@ jobs:
     name: vm7-prevention-gate-v5-261017
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'pull_request' && github.event.pull_request.head.ref != 'main') ||
-      (github.event_name == 'pull_request_target' && github.event.pull_request.head.ref == 'main')
+      github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     env:
       MERGIFY_TOKEN: ${{ vars.MERGIFY_TOKEN_RETRY_261017 }}
@@ -27,7 +24,7 @@ jobs:
       - name: Run fixed target-owned Prevention test
         shell: bash
         env:
-          VM7_EVENT_NAME: ${{ github.event_name }}
+          VM7_MODE: ${{ github.event_name == 'workflow_dispatch' && 'seed' || github.event.pull_request.head.ref == 'main' && 'poison' || 'consumer' }}
         run: |
           cat > test_vm7_fork_main_prevention_v5_261017.py <<'PY'
           import os
@@ -36,9 +33,9 @@ jobs:
           def test_vm7_fork_main_prevention_v5_seed_261017():
               assert True
 
-          if os.environ["VM7_EVENT_NAME"] != "workflow_dispatch":
+          if os.environ["VM7_MODE"] != "seed":
             def test_vm7_fork_main_prevention_v5b_261017():
-              if os.environ["VM7_EVENT_NAME"] == "pull_request_target":
+              if os.environ["VM7_MODE"] == "poison":
                   assert True
                   return
 
